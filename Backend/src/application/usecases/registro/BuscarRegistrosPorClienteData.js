@@ -1,5 +1,6 @@
 const repo = require("../../../config/repo");
 const CalcularSaldoAtualCliente = require("../cliente/CalcularSaldoAtualCliente");
+const Big = require("big.js");
 
 class BuscarRegistrosPorClienteData {
   constructor(registroRepository) {
@@ -11,21 +12,22 @@ class BuscarRegistrosPorClienteData {
 
     const rows = await this.registroRepository.buscarPorClienteId(fkCliente, ano, mes);
 
-    let entradaTotal = 0;
-    let saidaTotal = 0;
+    let entradaTotal = new Big(0);
+        let saidaTotal = new Big(0);
 
     for (const row of rows) {
-      if (row.tipo === "Deposito") entradaTotal += Number(row.valor);
-      else saidaTotal += Number(row.valor);
+      const valor = new Big(row.valor);
+      if (row.tipo === "Deposito") entradaTotal = entradaTotal.plus(valor);
+      else if (row.tipo === "Saque") saidaTotal = saidaTotal.plus(valor);
     }
-    const saldoFinal = entradaTotal - saidaTotal;
+    const saldoFinal = entradaTotal.minus(saidaTotal);
 
     const saldoAtual = await new CalcularSaldoAtualCliente(repo.registroRepository).execute(fkCliente);
 
     return {
-      entradaTotal,
-      saidaTotal,
-      saldoFinal,
+      entradaTotal: entradaTotal.toNumber(),
+      saidaTotal: saidaTotal.toNumber(),
+      saldoFinal: saldoFinal.toNumber(),
       saldoAtual,
       rows
     }

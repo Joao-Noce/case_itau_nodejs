@@ -19,8 +19,7 @@ const pool = mysql.createPool({
       CREATE TABLE IF NOT EXISTS clientes (
         idCliente INT AUTO_INCREMENT PRIMARY KEY,
         nome VARCHAR(50) NOT NULL,
-        email VARCHAR(50) NOT NULL UNIQUE,
-        saldo FLOAT DEFAULT 0
+        email VARCHAR(50) NOT NULL UNIQUE
       );
     `);
 

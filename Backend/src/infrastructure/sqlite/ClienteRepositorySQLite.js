@@ -32,7 +32,6 @@ class ClienteRepositorySQLite extends ClienteRepositoryInterface {
   }
 
   async buscarPorEmail(email, idCliente) {
-    console.log('sqliteeee')
     const query = idCliente
       ? "SELECT * FROM clientes WHERE email = ? AND idCliente != ?"
       : "SELECT * FROM clientes WHERE email = ?";
@@ -43,12 +42,10 @@ class ClienteRepositorySQLite extends ClienteRepositoryInterface {
   }
 
   async autenticar({ nome, email }) {
-    console.log(nome, email);
     const rows = await this.all(
       "SELECT * FROM clientes WHERE nome = ? AND email = ?",
       [nome, email]
     );
-    console.log(rows)
     return rows.length > 0 ? rows[0] : null;
   }
 

@@ -13,7 +13,6 @@ class AutenticarCliente {
 
     const cliente = { nome, email };
     const clienteAutenticado = await this.clienteRepository.autenticar(cliente);
-    console.log(clienteAutenticado);
     if (!clienteAutenticado) throw new NotFoundError("Cliente não encontrado");
 
     const saldoAtual = await new CalcularSaldoAtualCliente(repo.registroRepository).execute(clienteAutenticado.idCliente);

@@ -15,8 +15,7 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS clientes (
       idCliente INTEGER PRIMARY KEY AUTOINCREMENT,
       nome TEXT NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      saldo REAL DEFAULT 0
+      email TEXT NOT NULL UNIQUE
     );
   `);
 
@@ -34,7 +33,7 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS registros (
       idRegistro INTEGER PRIMARY KEY AUTOINCREMENT,
       descricao TEXT NOT NULL,
-      valor REAL NOT NULL,
+      valor DECIMAL(12,2) NOT NULL,
       data TEXT NOT NULL,
       tipo TEXT CHECK(tipo IN ('Deposito','Saque')) NOT NULL,
       repeticao TEXT CHECK(repeticao IN ('NONE','DAY','WEEK','MONTH','YEAR')) DEFAULT 'NONE',
