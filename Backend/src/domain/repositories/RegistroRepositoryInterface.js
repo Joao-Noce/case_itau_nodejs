@@ -27,10 +27,6 @@ class RegistroRepositoryInterface {
     throw new Error("Method not implemented: buscarFixosPorClienteData")
   }
 
-  // async agruparPorCategoriaIdClienteId(categoriaId, clienteId) {
-  //   throw new Error("Method not implemented: agruparPorCategoriaIdClienteId");
-  // }
-
   async calcularSaldoAtual(fkCliente) {
     throw new Error("Method not implemented: calcularSaldoAtual");
   }

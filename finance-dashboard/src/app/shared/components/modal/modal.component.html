@@ -1,0 +1,12 @@
+<div class="modal-overlay" *ngIf="mostrar">
+  <div class="modal">
+    <h2>{{ titulo }}</h2>
+    <div class="modal-content">
+      <ng-content></ng-content>
+    </div>
+    <div class="modal-actions" *ngIf="!autoCloseTime"> <!-- esconde botões se for alerta -->
+      <button *ngIf="mostrarCancelar" class="btn cancelar" (click)="onFechar()">Cancelar</button>
+      <button class="btn confirmar" (click)="onConfirmar()">Confirmar</button>
+    </div>
+  </div>
+</div>

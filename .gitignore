@@ -38,4 +38,4 @@ Desktop.ini
 # === Projeto específico ===
 # Backend e frontend
 Backend/node_modules/
-Frontend/finance-dashboard/node_modules/
+finance-dashboard/node_modules/

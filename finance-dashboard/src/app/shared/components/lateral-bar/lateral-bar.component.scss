@@ -1,0 +1,127 @@
+@use '../variables.scss' as vars;
+
+.lateral-bar {
+  width: 80px;
+  min-height: 100vh;
+  background: vars.$color-bg-orange;
+  color: vars.$color-title-white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.4s ease;
+  position: relative;
+
+  &.aberta {
+    width: 220px;
+  }
+
+  &:not(.aberta) {
+    .logo .content {
+      border: none;
+    }
+
+    .menu button {
+      justify-content: center;
+      gap: 0;
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    top: 25px;
+    right: -12px;
+    z-index: 10;
+
+    button {
+      background: vars.$color-bg-orange;
+      border: none;
+      color: vars.$color-title-white;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      transition: background 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background: darken(vars.$color-bg-orange, 5%);
+      }
+    }
+  }
+
+  .navegacao {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    margin-top: 15px;
+    
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      // gap: 30px;
+    }
+
+    .content {
+      width: 80%;
+      border-bottom: solid white 2px;
+      padding: 10px;
+
+
+      img {
+        width: 50px;
+        width: 50%;
+        background: transparent;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .menu {
+    width: 100%;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 20px;
+      background: transparent;
+      border: none;
+      color: vars.$color-title-white;
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+      // white-space: nowrap; // evita quebra de linha
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .texto {
+        overflow: hidden;
+        transition: all 0.3s ease;
+        opacity: 1;
+        width: auto;
+      }
+
+      .texto.oculto {
+        opacity: 0;
+        width: 0;
+        margin: 0;
+      }
+    }
+  }
+}

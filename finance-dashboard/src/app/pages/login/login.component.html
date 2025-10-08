@@ -1,0 +1,46 @@
+<div class="auth-container">
+  <div class="background-overlay"></div>
+
+  <div class="auth-form">
+
+    <h2>Login - Controle de Gastos</h2>
+
+    <form #form="ngForm" (ngSubmit)="fazerLogin(form)">
+      <label>
+        Email:
+        <input type="email" name="email" [(ngModel)]="email" #emailInput="ngModel" required email placeholder="Email"
+          [ngClass]="{ 'erro': emailInput.invalid && (emailInput.touched || form.submitted) }" />
+
+        <small class="erro-texto" *ngIf="emailInput.errors?.['required'] && (emailInput.touched || form.submitted)">
+          O e-mail é obrigatório.
+        </small>
+
+        <small class="erro-texto" *ngIf="emailInput.errors?.['email'] && (emailInput.touched || form.submitted)">
+          Formato de e-mail inválido.
+        </small>
+      </label>
+
+      <label>
+        Nome de usuário:
+        <input type="text" [(ngModel)]="nome" name="nome" #nomeInput="ngModel" required [ngClass]="{ 'erro': nomeInput.invalid && (nomeInput.touched || form.submitted) }"
+          placeholder="Digite seu nome de usuário" />
+          <small class="erro-texto" *ngIf="nomeInput.errors?.['required'] && (nomeInput.touched || form.submitted)">
+          O nome é obrigatório.
+        </small>
+      </label>
+
+      <button type="submit" [disabled]="carregando">
+        {{ carregando ? 'Entrando...' : 'Entrar' }}
+      </button>
+      <p class="cadastro-link">
+        Não tem conta? <a (click)="irParaCadastro()">Cadastre-se</a>
+      </p>
+    </form>
+  </div>
+  <img src="/logo2.jpg" class="logo-itau" alt="Logo Itaú">
+</div>
+
+<app-modal [titulo]="modalTitulo" [mostrar]="mostrarModalAvisarLogin" [autoCloseTime]="autoClose"
+  (fechar)="mostrarModalAvisarLogin = false">
+  <p>{{ modalMensagem }}</p>
+</app-modal>

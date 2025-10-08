@@ -1,0 +1,139 @@
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("../../../../public/fundo.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0px;
+  }
+
+  .auth-form {
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: #FFF;
+    padding: 10px 15px;
+    border-radius: 12px;
+
+    h2 {
+      color: #ff6200;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    animation: formPop 0.3s ease;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      color: #333;
+      gap: 5px;
+
+      input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          border-color: #002D74;
+        }
+
+        &.erro {
+          border-color: #e53935;
+        }
+      }
+
+      .erro-texto {
+        font-size: 12px;
+        color: #e53935;
+        margin-top: 3px;
+      }
+    }
+
+    button {
+      background: #ff6200;
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        background: #ff6200;
+        transform: scale(1.03);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .cadastro-link {
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+
+    a {
+      color: #ff6200;
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.logo-itau {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 80px;
+}
+
+/* ✨ ANIMAÇÕES ✨ */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes formPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

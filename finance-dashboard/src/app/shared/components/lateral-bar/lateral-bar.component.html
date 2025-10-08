@@ -1,0 +1,43 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="lateral-bar" [class.aberta]="mostrar">
+
+  <div class="toggle-btn">
+    <button (click)="alternarBarra()">
+      <span class="material-icons">
+        {{ mostrar ? 'chevron_left' : 'chevron_right' }}
+      </span>
+    </button>
+  </div>
+
+  <div class="navegacao">
+<div class="content-container">
+
+  <div class="content">
+    <img src="/logo2.jpg" alt="Logo Itaú">
+  </div>
+  
+  <div class="menu">
+    <button (click)="irParaDashboard()">
+      <span class="material-icons">dashboard</span>
+      <span class="texto" [class.oculto]="!mostrar">Dashboard</span>
+    </button>
+    
+    <button (click)="irParaUsuario()">
+      <span class="material-icons">settings</span>
+      <span class="texto" [class.oculto]="!mostrar">Configurações de Usuário</span>
+    </button>
+  </div>
+</div>
+
+
+    <div class="menu">
+      <button (click)="logout()">
+        <span class="material-icons">logout</span>
+        <span class="texto" [class.oculto]="!mostrar">Sair</span>
+      </button>
+    </div>
+  </div>
+
+
+</div>
