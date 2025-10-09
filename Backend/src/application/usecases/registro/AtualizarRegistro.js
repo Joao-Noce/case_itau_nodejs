@@ -1,4 +1,4 @@
-const { NotFoundError } = require("../../../domain/errors");
+const { NotFoundError, BadRequestError } = require("../../../domain/errors");
 
 class AtualizarRegistro {
   constructor(registroRepository) {
@@ -6,6 +6,9 @@ class AtualizarRegistro {
   }
 
   async execute(id, { descricao, valor, data, tipo, repeticao, fkCategoria }) {
+    if (!descricao || !valor || valor < 1 || !data || !tipo || !repeticao || !fkCliente)
+      throw new BadRequestError("Campos obrigatórios faltando");
+
     const registro = await this.registroRepository.buscarPorId(id);
     if (!registro) throw new NotFoundError();
 
