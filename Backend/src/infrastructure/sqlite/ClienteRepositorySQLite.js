@@ -51,8 +51,8 @@ class ClienteRepositorySQLite extends ClienteRepositoryInterface {
 
   async criar(cliente) {
     const result = await this.runAsync(
-      "INSERT INTO clientes (nome, email, saldo) VALUES (?, ?, ?)",
-      [cliente.nome, cliente.email, cliente.saldo]
+      "INSERT INTO clientes (nome, email) VALUES (?, ?)",
+      [cliente.nome, cliente.email]
     );
     return new Cliente({ ...cliente, idCliente: result.lastID });
   }

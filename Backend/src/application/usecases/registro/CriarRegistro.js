@@ -7,11 +7,11 @@ class CriarRegistro {
   }
 
   async execute({ descricao, valor, data, tipo, parcela, juros, repeticao, fkCliente, fkCategoria }) {
-    if (!descricao || !valor || !data || !tipo || !repeticao || !fkCliente)
+    if (!descricao || !valor || valor < 1 || !data || !tipo || !repeticao || !fkCliente)
       throw new BadRequestError("Campos obrigatórios faltando");
 
     let total = Big(valor);
-    if (juros) {
+    if (juros && juros >=0 ) {
       const jurosBig = Big(juros).div(100);
       total = total.plus(total.times(jurosBig));
     }

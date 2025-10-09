@@ -462,8 +462,7 @@ app-modal form {
       background: #fafafa;
 
       &:focus {
-        border-color: #4caf50;
-        box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+        border-color: vars.$color-title-blue;
         background: vars.$color-bg-white;
       }
     }

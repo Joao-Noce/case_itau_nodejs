@@ -438,8 +438,11 @@ app-modal form {
 
       &:focus {
         border-color: vars.$color-bg-orange;
-        box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
         background: vars.$color-bg-white;
+      }
+      &:disabled {
+        background: #e0e0e0;
+        cursor: not-allowed;
       }
     }
   }

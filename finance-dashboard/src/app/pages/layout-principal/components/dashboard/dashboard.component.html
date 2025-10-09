@@ -163,7 +163,7 @@
 
     <label>
       Valor:
-      <input type="number" step="0.01" [(ngModel)]="formRegistro.valor" name="valor" required />
+      <input type="number" step="0.01" min="1" [(ngModel)]="formRegistro.valor" name="valor" required />
     </label>
 
     <label>
@@ -193,14 +193,14 @@
 
     <label>
       Parcela:
-      <input type="number" [(ngModel)]="formRegistro.parcela" name="parcela"
-        [disabled]="formRegistro.repeticao != 'NONE'" />
+      <input type="number" min="1" [(ngModel)]="formRegistro.parcela" name="parcela"
+        [disabled]="formRegistro.repeticao != 'NONE' || formRegistro.tipo != 'Saque'" />
     </label>
 
     <label>
       Juros:
-      <input type="number" [(ngModel)]="formRegistro.juros" name="juros"
-        [disabled]="formRegistro.repeticao != 'NONE'" />
+      <input type="number" min="0" [(ngModel)]="formRegistro.juros" name="juros"
+        [disabled]="formRegistro.repeticao != 'NONE' || formRegistro.tipo != 'Saque'" />
     </label>
 
     <label>
@@ -226,7 +226,7 @@
 
     <label>
       Valor:
-      <input type="number" step="0.01" [(ngModel)]="formRegistro.valor" name="valor" required />
+      <input type="number" step="0.01" min="1" [(ngModel)]="formRegistro.valor" name="valor" required />
     </label>
 
     <label>
