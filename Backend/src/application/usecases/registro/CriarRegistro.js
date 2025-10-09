@@ -1,4 +1,5 @@
 const { BadRequestError } = require("../../../domain/errors");
+const Big = require("big.js");
 
 class CriarRegistro {
   constructor(registroRepository) {
@@ -9,22 +10,42 @@ class CriarRegistro {
     if (!descricao || !valor || !data || !tipo || !repeticao || !fkCliente)
       throw new BadRequestError("Campos obrigatórios faltando");
 
-    if (juros) valor += valor * (juros / 100);
+    // calcula juros (se informado) usando Big para precisão
+    let total = Big(valor);
+    if (juros) {
+      const jurosBig = Big(juros).div(100);
+      total = total.plus(total.times(jurosBig));
+    }
+
     let listaParcelas = [];
 
     if (parcela && parcela > 1) {
+      // dividir em parcelas mensais e distribuir centavos na última parcela
+      const parcelaCount = Number(parcela);
+      const totalBig = total;
 
-      valor = valor / parcela;
+      // parcela base arredondada a 2 casas (round half up)
+      const base = totalBig.div(parcelaCount).round(2, 1);
 
       const dataAtual = new Date(data);
 
-      for (let i = 1; i <= parcela; i++) {
+      for (let i = 1; i <= parcelaCount; i++) {
         const proximo = new Date(dataAtual);
         proximo.setMonth(proximo.getMonth() + i);
-        const novaDescricao = descricao + ` ${i}/${parcela}`;
+        const novaDescricao = descricao + ` ${i}/${parcelaCount}`;
+
+        let valorParcelaBig;
+        if (i < parcelaCount) {
+          valorParcelaBig = base;
+        } else {
+          // última parcela recebe o restante para garantir soma == total
+          const somaAnterior = base.times(parcelaCount - 1);
+          valorParcelaBig = totalBig.minus(somaAnterior).round(2, 1);
+        }
+
         let parcelaDaVez = await this.registroRepository.criar({
           descricao: novaDescricao,
-          valor,
+          valor: parseFloat(valorParcelaBig.toString()),
           data: proximo.toISOString().split("T")[0],
           tipo,
           repeticao,
@@ -34,10 +55,12 @@ class CriarRegistro {
         listaParcelas.push(parcelaDaVez);
       }
     } else {
+      // registro único (ou repetição simples). usamos total com 2 casas
+      const valorFinal = total.round(2, 1);
 
       const registro = await this.registroRepository.criar({
         descricao,
-        valor,
+        valor: parseFloat(valorFinal.toString()),
         data,
         tipo,
         repeticao: repeticao || "NONE",
@@ -60,7 +83,7 @@ class CriarRegistro {
 
         const novoRegistro = await this.registroRepository.criar({
           descricao,
-          valor,
+          valor: parseFloat(valorFinal.toString()),
           data: proximo.toISOString().split("T")[0],
           tipo,
           repeticao,
@@ -70,6 +93,7 @@ class CriarRegistro {
         listaParcelas.push(novoRegistro);
       }
     }
+
     return listaParcelas;
   }
 }

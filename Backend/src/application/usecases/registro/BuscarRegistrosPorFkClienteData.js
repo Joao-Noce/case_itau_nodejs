@@ -1,16 +1,20 @@
-const repo = require("../../../config/repo");
-const CalcularSaldoAtualCliente = require("../cliente/CalcularSaldoAtualCliente");
+const CalcularSaldoAtualFkCliente = require("./CalcularSaldoAtualFkCliente");
 const Big = require("big.js");
 
-class BuscarFixosPorClienteData {
+class BuscarRegistrosPorFkClienteData {
   constructor(registroRepository) {
     this.registroRepository = registroRepository;
   }
 
   async execute(fkCliente, ano, mes) {
     if (!fkCliente) throw new Error("fkCliente é obrigatório");
+    if (!ano) throw new Error("ano é obrigatório");
+    if (!mes) throw new Error("mes é obrigatório");
 
-    const rows = await this.registroRepository.buscarFixosPorClienteData(fkCliente, ano, mes);
+    const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
+    const fim = new Date(ano, mes, 0).toISOString().split("T")[0];
+
+    const rows = await this.registroRepository.buscarPorFkClienteData(fkCliente, inicio, fim);
 
     let entradaTotal = new Big(0);
     let saidaTotal = new Big(0);
@@ -22,16 +26,16 @@ class BuscarFixosPorClienteData {
     }
     const saldoFinal = entradaTotal.minus(saidaTotal);
 
-    const saldoAtual = await new CalcularSaldoAtualCliente(repo.clienteRepository).execute(fkCliente);
+    const saldoAtual = await new CalcularSaldoAtualFkCliente(this.registroRepository).execute(fkCliente);
 
     return {
-      saldoAtual,
       entradaTotal: entradaTotal.toNumber(),
       saidaTotal: saidaTotal.toNumber(),
       saldoFinal: saldoFinal.toNumber(),
+      saldoAtual,
       rows
     }
   }
 }
 
-module.exports = BuscarFixosPorClienteData;
+module.exports = BuscarRegistrosPorFkClienteData;

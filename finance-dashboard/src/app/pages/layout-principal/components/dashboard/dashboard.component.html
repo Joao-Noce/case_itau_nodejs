@@ -206,7 +206,6 @@
     <label>
       Categoria:
       <select [(ngModel)]="formRegistro.fkCategoria" name="fkCategoria">
-        <option [ngValue]="null">Sem categoria</option>
         <option *ngFor="let categoria of categorias" [ngValue]="categoria.idCategoria">
           {{ categoria.nome }}
         </option>

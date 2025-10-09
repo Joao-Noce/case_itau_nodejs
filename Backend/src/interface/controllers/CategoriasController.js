@@ -1,6 +1,5 @@
 const repo = require("../../config/repo");
 const CriarCategoria = require("../../application/usecases/categoria/CriarCategoria");
-// const ListarCategorias = require("../../application/usecases/categoria/ListarCategorias");
 const AtualizarCategoria = require("../../application/usecases/categoria/AtualizarCategoria");
 const DeletarCategoria = require("../../application/usecases/categoria/DeletarCategoria");
 const BuscarPorFkCliente = require("../../application/usecases/categoria/BuscarPorFkCliente");

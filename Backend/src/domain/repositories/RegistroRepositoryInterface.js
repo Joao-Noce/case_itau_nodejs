@@ -7,10 +7,6 @@ class RegistroRepositoryInterface {
     throw new Error("Method not implemented: buscarPorId");
   }
 
-  // async listar() {
-  //   throw new Error("Method not implemented: listar");
-  // }
-
   async atualizar(id, registro) {
     throw new Error("Method not implemented: atualizar");
   }
@@ -19,7 +15,7 @@ class RegistroRepositoryInterface {
     throw new Error("Method not implemented: deletar");
   }
 
-  async buscarPorFkCliente(fkCliente) {
+  async buscarPorFkClienteData(fkCliente, inicio, fim) {
     throw new Error("Method not implemented: buscarPorFkCliente");
   }
 
@@ -27,19 +23,19 @@ class RegistroRepositoryInterface {
     throw new Error("Method not implemented: buscarFixosPorClienteData")
   }
 
-  async calcularSaldoAtual(fkCliente) {
-    throw new Error("Method not implemented: calcularSaldoAtual");
+  async calcularSaldoAtualFkCliente(fkCliente, dataHoje) {
+    throw new Error("Method not implemented: calcularSaldoAtualFkCliente");
   }
 
   async buscarPorData(hoje) {
     throw new Error("Method not implemented: buscarPorData");
   }
   
-  async calcularSaldoMensal(fkCliente, ano) {
-    throw new Error("Method not implemented: calcularSaldoMensal");
+  async calcularSaldoMensalFkCliente(fkCliente, inicio, fim) {
+    throw new Error("Method not implemented: calcularSaldoMensalFkCliente");
   }
 
-  async agruparPorCategoria(fkCliente, ano, mes) {
+  async agruparPorFkCategoria(fkCliente, inicio, fim) {
     throw new Error("Method not implemented: agruparPorCategoria");
   }
 }

@@ -52,23 +52,6 @@ class ClienteRepositoryMySQL extends ClienteRepositoryInterface {
         const [result] = await pool.query("DELETE FROM clientes WHERE idCliente = ?", [id]);
         return result.affectedRows > 0;
     }
-
-    // async depositar(id, valor) {
-    //     const cliente = await this.buscarPorId(id);
-    //     if (!cliente) throw new Error("Cliente não encontrado");
-    //     cliente.saldo += valor;
-    //     await this.atualizar(cliente);
-    //     return cliente;
-    // }
-
-    // async sacar(id, valor) {
-    //     const cliente = await this.buscarPorId(id);
-    //     if (!cliente) throw new Error("Cliente não encontrado");
-    //     if (cliente.saldo < valor) throw new Error("Saldo insuficiente");
-    //     cliente.saldo -= valor;
-    //     await this.atualizar(cliente);
-    //     return cliente;
-    // }
 }
 
 module.exports = ClienteRepositoryMySQL;

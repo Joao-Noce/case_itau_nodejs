@@ -3,11 +3,8 @@ const Registro = require("../../domain/entities/Registro");
 const RegistroRepositoryInterface = require("../../domain/repositories/RegistroRepositoryInterface");
 
 class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
-  async buscarPorClienteId(fkCliente, ano, mes) {
-    const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-    const fim = new Date(ano, mes, 0)
-      .toISOString()
-      .split("T")[0];
+
+  async buscarPorFkClienteData(fkCliente, inicio, fim) {
 
     const [rows] = await pool.query(
       `SELECT r.*, c.nome as nomeCategoria FROM registros r
@@ -35,11 +32,6 @@ class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
     return new Registro({ idRegistro: result.insertId, descricao, valor, data, tipo, repeticao, fkCliente, fkCategoria });
   }
 
-  // async listar() {
-  //   const [rows] = await pool.query("SELECT * FROM registros");
-  //   return rows.map(r => new Registro(r));
-  // }
-
   async atualizar(id, { descricao, valor, data, tipo, repeticao, fkCategoria }) {
     const [result] = await pool.query(
       `UPDATE registros SET descricao = ?, valor = ?, data = ?, tipo = ?, repeticao = ?, fkCategoria = ? WHERE idRegistro = ?`,
@@ -53,12 +45,7 @@ class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
     return result.affectedRows > 0;
   }
 
-  async agruparPorCategoria(fkCliente, ano, mes) {
-    const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-    const fim = new Date(ano, mes, 0)
-      .toISOString()
-      .split("T")[0];
-
+  async agruparPorFkCategoria(fkCliente, inicio, fim) {
     const [rows] = await pool.query(
       `SELECT c.nome AS categoria, SUM(r.valor) AS total
    FROM registros r
@@ -72,10 +59,7 @@ class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
     return rows;
   }
 
-  async calcularSaldoAtual(fkCliente) {
-    const hoje = new Date();
-    const dataHoje = hoje.toISOString().split("T")[0];
-
+  async calcularSaldoAtualFkCliente(fkCliente, dataHoje) {
     const [rows] = await pool.query(
       `
             SELECT tipo, SUM(valor) as total
@@ -88,10 +72,7 @@ class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
     return rows;
   }
 
-  async calcularSaldoMensal(fkCliente, ano) {
-    const inicio = `${ano}-01-01`;
-    const fim = `${ano}-12-31`;
-
+  async calcularSaldoMensalFkCliente(fkCliente, inicio, fim) {
     const [rows] = await pool.query(
       `SELECT 
         MONTH(r.data) AS mes,
@@ -110,23 +91,10 @@ class RegistroRepositoryMySQL extends RegistroRepositoryInterface {
     `,
       [fkCliente, inicio, fim]
     );
-    let acumulado = 0;
-    const nomesMes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-
-    const resultado = rows.map(r => {
-      acumulado += Number(r.saldo_mensal);
-      return { mes: nomesMes[r.mes - 1], saldo: acumulado };
-    });
-
-    return resultado;
+    return rows;
   }
 
-  async buscarFixosPorClienteData(fkCliente, ano, mes) {
-    const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-    const fim = new Date(ano, mes, 0)
-      .toISOString()
-      .split("T")[0];
-
+  async buscarFixosPorFkClienteData(fkCliente, inicio, fim) {
     const [rows] = await pool.query(
       `SELECT * FROM registros WHERE repeticao != "NONE" AND fkCLiente = ? AND data BETWEEN ? AND ? ORDER BY data ASC`,
       [fkCliente, inicio, fim]

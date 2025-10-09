@@ -11,10 +11,6 @@ class CategoriaRepositoryInterface {
     throw new Error("Method not implemented: buscarPorIdCategoria");
   }
 
-  // async listar() {
-  //   throw new Error("Method not implemented: findAll");
-  // }
-
   async atualizar(idCategoria, { nome, fkCliente} ) {
     throw new Error("Method not implemented: atualizar");
   }

@@ -69,23 +69,6 @@ class ClienteRepositorySQLite extends ClienteRepositoryInterface {
     const result = await this.runAsync("DELETE FROM clientes WHERE idCliente = ?", [id]);
     return result.changes > 0;
   }
-
-  // async depositar(id, valor) {
-  //     const cliente = await this.buscarPorIdCliente(id);
-  //     if (!cliente) throw new Error("Cliente não encontrado");
-  //     cliente.saldo += valor;
-  //     await this.atualizar(id, cliente);
-  //     return cliente;
-  // }
-
-  // async sacar(id, valor) {
-  //     const cliente = await this.buscarPorIdCliente(id);
-  //     if (!cliente) throw new Error("Cliente não encontrado");
-  //     if (cliente.saldo < valor) throw new Error("Saldo insuficiente");
-  //     cliente.saldo -= valor;
-  //     await this.atualizar(id, cliente);
-  //     return cliente;
-  // }
 }
 
 module.exports = ClienteRepositorySQLite;

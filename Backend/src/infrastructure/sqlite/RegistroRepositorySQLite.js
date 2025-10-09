@@ -6,7 +6,6 @@ const util = require("util");
 class RegistroRepositorySQLite extends RegistroRepositoryInterface {
     constructor() {
         super();
-        // Promisificando métodos do sqlite para usar async/await
         this.all = util.promisify(db.all).bind(db);
         this.get = util.promisify(db.get).bind(db);
         this.run = util.promisify(db.run).bind(db);
@@ -21,10 +20,7 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
         });
     }
 
-    async buscarPorClienteId(fkCliente, ano, mes) {
-        const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-        const fim = new Date(ano, mes, 0).toISOString().split("T")[0];
-
+    async buscarPorFkClienteData(fkCliente, inicio, fim) {
         const rows = await this.all(
             `SELECT r.*, c.nome as nomeCategoria FROM registros r
        JOIN categorias c ON idCategoria = fkCategoria
@@ -49,7 +45,6 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
             [descricao, valor, data, tipo, repeticao, fkCliente, fkCategoria]
         );
 
-        // SQLite não retorna insertId direto, precisa pegar "this.lastID"
         return new Registro({ idRegistro: result.lastID, descricao, valor, data, tipo, repeticao, fkCliente, fkCategoria });
     }
 
@@ -66,10 +61,7 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
         return result.changes > 0;
     }
 
-    async agruparPorCategoria(fkCliente, ano, mes) {
-        const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-        const fim = new Date(ano, mes, 0).toISOString().split("T")[0];
-
+    async agruparPorFkCategoria(fkCliente, inicio, fim) {
         const rows = await this.all(
             `SELECT c.nome AS categoria, SUM(r.valor) AS total
        FROM registros r
@@ -80,14 +72,10 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
        GROUP BY r.fkCategoria`,
             [fkCliente, inicio, fim]
         );
-
         return rows;
     }
 
-    async calcularSaldoAtual(fkCliente) {
-        const hoje = new Date();
-        const dataHoje = hoje.toISOString().split("T")[0];
-
+    async calcularSaldoAtualFkCliente(fkCliente, dataHoje) {
         const rows = await this.all(
             `SELECT tipo, SUM(valor) as total
        FROM registros
@@ -95,14 +83,10 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
        GROUP BY tipo`,
             [fkCliente, dataHoje]
         );
-
         return rows;
     }
 
-    async calcularSaldoMensal(fkCliente, ano) {
-        const inicio = `${ano}-01-01`;
-        const fim = `${ano}-12-31`;
-
+    async calcularSaldoMensalFkCliente(fkCliente, inicio, fim) {
         const rows = await this.all(
             `SELECT 
          strftime('%m', data) AS mes,
@@ -120,21 +104,10 @@ class RegistroRepositorySQLite extends RegistroRepositoryInterface {
             [fkCliente, inicio, fim]
         );
 
-        let acumulado = 0;
-        const nomesMes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-
-        const resultado = rows.map(r => {
-            acumulado += Number(r.saldo_mensal);
-            return { mes: nomesMes[Number(r.mes) - 1], saldo: acumulado };
-        });
-
-        return resultado;
+        return rows;
     }
 
-    async buscarFixosPorClienteData(fkCliente, ano, mes) {
-        const inicio = `${ano}-${String(mes).padStart(2, "0")}-01`;
-        const fim = new Date(ano, mes, 0).toISOString().split("T")[0];
-
+    async buscarFixosPorFkClienteData(fkCliente, inicio, fim) {
         const rows = await this.all(
             `SELECT * FROM registros WHERE repeticao != "NONE" AND fkCliente = ? AND data BETWEEN ? AND ? ORDER BY data ASC`,
             [fkCliente, inicio, fim]

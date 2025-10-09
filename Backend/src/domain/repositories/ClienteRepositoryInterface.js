@@ -5,8 +5,6 @@ class ClienteRepositoryInterface {
   async criar(cliente) { throw new Error("Method not implemented: criar"); }
   async atualizar(cliente) { throw new Error("Method not implemented: atualizar"); }
   async deletar(id) { throw new Error("Method not implemented: deletar"); }
-  // async depositar(id, valor) { throw new Error("Method not implemented: async"); }
-  // async sacar(id, valor) { throw new Error("Method not implemented: async"); }
   async autenticar(cliente) { throw new Error("Method not Implemented: autenticar"); }
 }
 

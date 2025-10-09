@@ -44,7 +44,6 @@ db.serialize(() => {
     );
   `);
 
-  // 🔍 Verifica se já há categorias cadastradas
   db.get(`SELECT COUNT(*) AS total FROM categorias`, (err, row) => {
     if (err) {
       console.error("❌ Erro ao verificar categorias:", err.message);

@@ -1,6 +1,6 @@
 const { BadRequestError, NotFoundError } = require("../../../domain/errors");
 const repo = require("../../../config/repo");
-const CalcularSaldoAtualCliente = require("./CalcularSaldoAtualCliente");
+const CalcularSaldoAtualFkCliente = require("../registro/CalcularSaldoAtualFkCliente");
 
 class AutenticarCliente {
   constructor(clienteRepository, registroRepository) {
@@ -15,7 +15,7 @@ class AutenticarCliente {
     const clienteAutenticado = await this.clienteRepository.autenticar(cliente);
     if (!clienteAutenticado) throw new NotFoundError("Cliente não encontrado");
 
-    const saldoAtual = await new CalcularSaldoAtualCliente(repo.registroRepository).execute(clienteAutenticado.idCliente);
+    const saldoAtual = await new CalcularSaldoAtualFkCliente(repo.registroRepository).execute(clienteAutenticado.idCliente);
     
     clienteAutenticado.saldo = saldoAtual;
 

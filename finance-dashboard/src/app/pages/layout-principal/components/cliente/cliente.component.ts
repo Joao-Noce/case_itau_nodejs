@@ -457,7 +457,7 @@ export class ClienteComponent implements OnInit {
                 mensagemErro = 'Dados inválidos. Verifique os campos e tente novamente.';
                 break;
             case 409:
-                mensagemErro = 'Este e-mail já está cadastrado.';
+                mensagemErro = 'Esta categoria já foi criada.';
                 break;
             case 404:
                 mensagemErro = 'Servidor não encontrado. Verifique a conexão.';

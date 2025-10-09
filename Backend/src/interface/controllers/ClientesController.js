@@ -5,9 +5,6 @@ const CriarCliente = require("../../application/usecases/cliente/CriarCliente");
 const AtualizarCliente = require("../../application/usecases/cliente/AtualizarCliente");
 const AutenticarCliente = require("../../application/usecases/cliente/AutenticarCliente");
 const DeletarCliente = require("../../application/usecases/cliente/DeletarCliente");
-// const DepositarCliente = require("../../application/usecases/cliente/DepositarCliente");
-// const SacarCliente = require("../../application/usecases/cliente/SacarCliente");
-
 
 class ClientesController {
     async listar(req, res, next) {
@@ -66,26 +63,6 @@ class ClientesController {
             next(err);
         }
     }
-
-    // async depositar(req, res, next) {
-    //     try {
-    //         const { valor } = req.body;
-    //         const clienteAtualizado = await new DepositarCliente(repo.clienteRepository).execute(req.params.id, valor);
-    //         res.json(clienteAtualizado);
-    //     } catch (err) {
-    //         next(err);
-    //     }
-    // }
-
-    // async sacar(req, res, next) {
-    //     try {
-    //         const { valor } = req.body;
-    //         const clienteAtualizado = await new SacarCliente(repo.clienteRepository).execute(req.params.id, valor);
-    //         res.json(clienteAtualizado);
-    //     } catch (err) {
-    //         next(err);
-    //     }
-    // }
 }
 
 module.exports = new ClientesController();

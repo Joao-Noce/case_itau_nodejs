@@ -441,7 +441,7 @@ export class DashboardComponent implements OnInit {
                 mensagemErro = 'Dados inválidos. Verifique os campos e tente novamente.';
                 break;
             case 409:
-                mensagemErro = 'Este e-mail já está cadastrado.';
+                mensagemErro = 'Este registro já foi criado.';
                 break;
             case 404:
                 mensagemErro = 'Servidor não encontrado. Verifique a conexão.';
