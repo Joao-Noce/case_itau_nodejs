@@ -192,7 +192,8 @@ export class ClienteComponent implements OnInit {
 
 
     logout() {
-        window.location.href = '/login';
+        localStorage.clear();
+        this.router.navigate(['/Login']);
     }
 
     //? CLIENTE
@@ -229,13 +230,13 @@ export class ClienteComponent implements OnInit {
     }
 
     confirmarRemoverCliente() {
-        this.clienteService.deletarCliente(this.cliente.id).subscribe({
+        this.clienteService.deletarCliente(this.cliente.idCliente).subscribe({
             next: () => {
                 this.modalTitulo = 'Sucesso!';
                 this.modalMensagem = "Conta removida. Seus registros foram eliminados.";
                 this.autoClose = 1500;
                 this.abrirModalAlertar();
-                //! LEVAR PARA LOGIN
+                this.logout();
                 this.cliente = null;
                 this.mostrarModalRemoverCliente = false;
             },
@@ -460,7 +461,7 @@ export class ClienteComponent implements OnInit {
                 mensagemErro = 'Esta categoria já foi criada.';
                 break;
             case 404:
-                mensagemErro = 'Servidor não encontrado. Verifique a conexão.';
+                mensagemErro = 'Conta não encontrada.';
                 break;
             case 500:
                 mensagemErro = 'Erro interno no servidor. Tente novamente mais tarde.';

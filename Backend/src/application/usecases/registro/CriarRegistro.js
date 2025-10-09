@@ -10,7 +10,6 @@ class CriarRegistro {
     if (!descricao || !valor || !data || !tipo || !repeticao || !fkCliente)
       throw new BadRequestError("Campos obrigatórios faltando");
 
-    // calcula juros (se informado) usando Big para precisão
     let total = Big(valor);
     if (juros) {
       const jurosBig = Big(juros).div(100);
@@ -20,11 +19,9 @@ class CriarRegistro {
     let listaParcelas = [];
 
     if (parcela && parcela > 1) {
-      // dividir em parcelas mensais e distribuir centavos na última parcela
       const parcelaCount = Number(parcela);
       const totalBig = total;
 
-      // parcela base arredondada a 2 casas (round half up)
       const base = totalBig.div(parcelaCount).round(2, 1);
 
       const dataAtual = new Date(data);
@@ -38,7 +35,6 @@ class CriarRegistro {
         if (i < parcelaCount) {
           valorParcelaBig = base;
         } else {
-          // última parcela recebe o restante para garantir soma == total
           const somaAnterior = base.times(parcelaCount - 1);
           valorParcelaBig = totalBig.minus(somaAnterior).round(2, 1);
         }
@@ -55,7 +51,6 @@ class CriarRegistro {
         listaParcelas.push(parcelaDaVez);
       }
     } else {
-      // registro único (ou repetição simples). usamos total com 2 casas
       const valorFinal = total.round(2, 1);
 
       const registro = await this.registroRepository.criar({

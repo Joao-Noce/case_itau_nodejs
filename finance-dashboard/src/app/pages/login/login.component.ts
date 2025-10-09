@@ -67,7 +67,7 @@ export class LoginComponent {
                         mensagemErro = 'Este e-mail já está cadastrado.';
                         break;
                     case 404:
-                        mensagemErro = 'Servidor não encontrado. Verifique a conexão.';
+                        mensagemErro = 'Conta não encontrada. Verifique o nome e e-mail.';
                         break;
                     case 500:
                         mensagemErro = 'Erro interno no servidor. Tente novamente mais tarde.';
